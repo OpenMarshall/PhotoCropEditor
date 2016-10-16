@@ -133,15 +133,11 @@ open class CropViewController: UIViewController {
     }
     
     func done(_ sender: UIBarButtonItem) {
-        if let image = cropView?.croppedImage {
-            delegate?.cropViewController(self, didFinishCroppingImage: image)
-            guard let rotation = cropView?.rotation else {
-                return
-            }
-            guard let rect = cropView?.zoomedCropRect() else {
-                return
-            }
+        guard let image = cropView?.croppedImage else { return }
+        if let rotation = cropView?.rotation, let rect = cropView?.zoomedCropRect() {
             delegate?.cropViewController(self, didFinishCroppingImage: image, transform: rotation, cropRect: rect)
+        }else {
+            delegate?.cropViewController(self, didFinishCroppingImage: image)
         }
     }
     
